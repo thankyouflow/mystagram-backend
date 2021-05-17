@@ -1,0 +1,36 @@
+{
+  "name": "mystagram-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec node server.js",
+    "migrate": "npx prisma migrate dev",
+    "studio": "npx prisma studio"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thankyouflow/mystagram-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thankyouflow/mystagram-backend/issues"
+  },
+  "homepage": "https://github.com/thankyouflow/mystagram-backend#readme",
+  "dependencies": {
+    "@prisma/client": "^2.22.1",
+    "@prisma/engines": "^2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c",
+    "apollo-server": "^2.24.0",
+    "graphql": "^15.5.0",
+    "stoppable": "^1.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.2",
+    "@types/stoppable": "^1.1.0",
+    "nodemon": "^2.0.7",
+    "prisma": "^2.22.1"
+  },
+  "type": "module"
+}
