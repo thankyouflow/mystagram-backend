@@ -1,5 +1,7 @@
 import { protectedResolver } from "../../users/users.utils";
 import client from "../../client";
+import { processHashtags } from "../photos.utils";
+import { uploadToS3 } from "../../shared/shared.utils";
 
 export default {
   Mutation: {
@@ -7,15 +9,12 @@ export default {
       async (_, { file, caption }, { loggedInUser }) => {
         let hashtagObj = []
         if (caption) {
-          const hashtags = caption.match(/#[\w]+/g);
-          hashtagObj = hashtags.map((hashtag) => ({
-            where: { hashtag },
-            create: { hashtag },
-          }));
+          hashtagObj = processHashtags(caption)
         }
-        return client.photo.create({
+        const fileUrl = await uploadToS3(file, loggedInUser.id, "uploads");
+        const photoUpload = client.photo.create({
           data: {
-            file,
+            file: fileUrl,
             caption,
             user: {
               connect: {
@@ -29,6 +28,16 @@ export default {
             }),
           },
         });
+        if (photoUpload.id) {
+          return {
+            ok: true,
+          };
+        } else {
+          return {
+            ok: false,
+            error: "Could not upload photo.",
+          };
+        }
       }
     ),
   },
