@@ -19,7 +19,7 @@ export default {
             error: "Photo not found.",
           };
         }
-        await client.comment.create({
+        const result = await client.comment.create({
           data: {
             payload,
             photo: {
@@ -34,8 +34,10 @@ export default {
             },
           },
         });
+        
         return {
           ok: true,
+          id: result.id
         };
       }
     ),
