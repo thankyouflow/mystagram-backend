@@ -1,18 +1,19 @@
-import { protectedResolver } from "../../users/users.utils";
+
 import client from "../../client";
-import { processHashtags } from "../photos.utils";
 import { uploadToS3 } from "../../shared/shared.utils";
+import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 export default {
   Mutation: {
     uploadPhoto: protectedResolver(
       async (_, { file, caption }, { loggedInUser }) => {
-        let hashtagObj = []
+        let hashtagObj = [];
         if (caption) {
-          hashtagObj = processHashtags(caption)
+          hashtagObj = processHashtags(caption);
         }
         const fileUrl = await uploadToS3(file, loggedInUser.id, "uploads");
-        const photoUpload = client.photo.create({
+        return client.photo.create({
           data: {
             file: fileUrl,
             caption,
@@ -28,16 +29,6 @@ export default {
             }),
           },
         });
-        if (photoUpload.id) {
-          return {
-            ok: true,
-          };
-        } else {
-          return {
-            ok: false,
-            error: "Could not upload photo.",
-          };
-        }
       }
     ),
   },

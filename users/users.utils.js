@@ -14,7 +14,7 @@ export const getUser = async (token) => {
       return null;
     }
   } catch {
-    return null;
+    return null; 
   }
 };
 
